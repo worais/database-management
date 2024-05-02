@@ -1,0 +1,9 @@
+node_modules
+vendor
+data
+src/hello.php
+src/index.php
+src/wp-phpmyadmin-extension
+src/wp-dbmanager
+src/sql-buddy
+src/akismet

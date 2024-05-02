@@ -1,0 +1,41 @@
+version: '3'
+services:
+  mysql:
+    image: mariadb:10.5.8
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+  wordpress:
+    image: wordpress:latest
+    depends_on:
+      - mysql   
+    volumes:
+      - ./phpunit.xml:/var/www/html/phpunit.xml    
+      - ./.phplint.yml:/var/www/html/.phplint.yml   
+      - ./tests:/var/www/html/tests     
+      - ./vendor:/var/www/html/vendor
+      - ./src:/var/www/html/wp-content/plugins
+    ports:
+      - 8000:80
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: "true"
+  gulp:
+    image: node:8
+    user: root
+    working_dir: /home/node/app
+    volumes:
+      - .:/home/node/app
+    command: "npm run start"       
+  composer:
+    image: composer:1.9.3
+    volumes:
+      - .:/app
+    command: install 

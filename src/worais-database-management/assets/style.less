@@ -1,0 +1,222 @@
+body.settings_page_worais-database  #wpcontent #wpbody #wpbody-content > .notice{display: none;}
+
+#worais-database{
+    #editor{
+        display: block;
+        width: calc(100% - 20px);
+        margin-top: 20px;   
+        .btn-primary{
+            margin-top: -60px;
+            margin-right: 7px;
+
+            background: #00dca7;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            font-size: 0.875rem;
+            padding: 0.95rem 1.2rem;
+            min-width: 6rem; 
+            float: right;
+            border-radius: 5px;
+            cursor: pointer; 
+
+            -webkit-transition: background-color 300ms linear;
+            -moz-transition: background-color 300ms linear;
+            -o-transition: background-color 300ms linear;
+            -ms-transition: background-color 300ms linear;
+            transition: background-color 300ms linear;
+
+            &:hover{
+                background: #06c194;
+            }
+            position: relative;
+            .spinner{
+                display: none;
+                position: absolute;
+                left: 50%;
+                margin-top: -2px;
+                margin-left: -10px;
+            }
+            &.loading{    
+                pointer-events: none;   
+                background-size: 20px 20px;
+                background-position: center;
+                color: #f0f0f100; 
+                .spinner{
+                    display: block;
+                }               
+            }            
+        }             
+    }    
+    #results{
+        background: #fff;
+        border: 1px solid #D6D6D6;
+        box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.05), 0 2px 1px 0 rgba(0, 0, 0, 0.03);
+        border-radius: 6px; 
+        width: calc(100% - 20px);
+        overflow-x: scroll;
+        h2{
+            border-bottom: 1px solid #EBEFF3;
+            color: #555;
+            font-weight: 500;
+            padding: 10px;
+            padding-top: 0;
+            margin-bottom: 0;
+        }    
+        table.widefat{
+            border: 0;
+            border-radius: 6px; 
+            overflow: hidden;
+            thead{
+                th{
+                    font-weight: bold;
+                    border: 0;
+                    background: #f5f5f5;
+                    background: -moz-linear-gradient(top, #fefefe 0%, #f5f5f5 100%);
+                    background: -webkit-linear-gradient(top, #fefefe 0%, #f5f5f5 100%);
+                    background: linear-gradient(to bottom, #fefefe 0%, #f5f5f5 100%);
+                }
+            }
+            tbody{
+                tr{
+                    &:hover{
+                        background: rgb(252 252 188);
+                    }
+                    &.empty{
+                        opacity: 0.8;
+                        background: #f8f8f8;
+                    }
+                    td{
+                        &.primary{
+                            background: #e8ec03;
+                        }
+                    }
+                }
+            }
+        }
+        #empty {
+            background-color: #eee;
+            background-image: url(empty.png);
+            background-size: 100px;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: calc(100% - 100px);
+            min-height: 200px;
+            width: 100%;
+            padding: 0;
+        }   
+        #error {
+            text-align: center;
+            padding-top: 200px;            
+            background-color: #fee;
+            background-image: url(error.png);
+            background-size: 100px;
+            background-position: center 64px;
+            background-repeat: no-repeat;
+            min-height: 64px;
+            width: 100%;
+            padding: 0;
+            padding-top: 200px;
+        }            
+    }
+    #colunms-div, #where-div{
+        &:not(:empty){
+            padding-top: 5px;
+        }
+        button{
+            border: 0;
+            padding: 5px;
+            margin-right: 5px;
+            margin-bottom: 5px;   
+            border-radius: 5px;         
+            background-color: #ccc;
+            &.active{
+                background-color: #999;
+            }            
+        }
+        display: none;
+        &.open{
+            display: block;
+            button{
+                display: inline-block;
+            }
+        }
+        .where-btn-apply, .colunms-btn-apply, .condition-btn{
+            cursor: pointer;
+            margin-top: 5px;
+            background: -webkit-linear-gradient(top, #fefefe 0, #f5f5f5 100%);
+            background: linear-gradient(to bottom, #fefefe 0, #f5f5f5 100%);
+            border: 1px solid #ccc;
+            &:hover:not(.colunms-btn-apply){
+                background: #ccc;
+            }    
+            &.selected{
+                background: #999;
+            }        
+        }      
+    }
+    #where-div{
+        display: none;
+        &.open{
+            display: block;
+        } 
+        input{
+            position: relative;
+            top: 2px;            
+        }    
+        .condition-btn{
+            position: relative;
+            top: 3px;            
+        }
+    }
+    #tools{
+        display: flex;
+        margin-bottom: 5px;
+        > a{       
+            margin-right: 5px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 22px;
+            width: 32px;
+            height: 32px;
+            background-color: #fff;
+            border: 1px solid #D6D6D6;
+            z-index: 9;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 10px;
+            color: #555;
+            text-indent: 3px;
+            line-height: 13px;            
+            &:hover{
+                background-color: #eee;
+            }
+            &.open{
+                background-color: #ccc !important;
+            }
+        } 
+        .colunms-btn{
+            background-image: url(colunms.png);
+        }     
+        .where-btn{
+            background-image: url(where.png);
+        }  
+        .table-btn{
+            position: relative;
+            top: 7px;
+        }              
+    }   
+}
+
+.CodeMirror{
+    background: #fff;
+    border: 1px solid #D6D6D6;
+    box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.05), 0 2px 1px 0 rgba(0, 0, 0, 0.03);
+    border-radius: 6px;  
+    margin-bottom: 5px;   
+    height: auto !important;
+    min-height: 60px;
+}
+.CodeMirror-scroll {
+    height: auto !important;
+    overflow-y: hidden;
+    overflow-x: auto;
+}
