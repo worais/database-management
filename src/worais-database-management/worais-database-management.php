@@ -147,6 +147,7 @@ class WoraisDatabase{
                 $columns[$row->Field]['field'] = $row->Field;
                 $columns[$row->Field]['type'] = $row->Type;
                 $columns[$row->Field]['key'] = $row->Key;
+                $columns[$row->Field]['active'] = true;
             }
 
             $query = apply_filters('worais-database-statement-select', [
