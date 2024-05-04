@@ -157,7 +157,7 @@ window.onload = function() {
             },
             complete:function() {
                 $btn.removeClass('loading');
-            },                                                             
+            }                                                             
         })    
     })   
     
@@ -181,4 +181,64 @@ window.onload = function() {
 
         jQuery('#btn-sql-run').click();
     }); 
+
+    jQuery("#results").on( "click", ".row-edit", function() {
+        const data = window.data[ jQuery(this).attr('for') ];
+
+        jQuery('#row-form').html('');
+        for (col of Object.keys(window.colunms)){
+            if(window.colunms[col].active){
+                const cla = (window.colunms[col].key == 'PRI')? 'primary' : '';
+                jQuery('#row-form').append(`<label class="${cla}" for="${col}">${col} <i>${window.colunms[col].type}</i><input name="${col}"/></label>`);
+                jQuery(`#row-form label[for="${col}"] input`).val(data[col]);
+            }
+        }
+        jQuery('#row-form').append('<a class="cancel-btn">Cancel</a><button class="btn-lg" id="row-edit-dtn"><span class="spinner is-active"></span>Save</button>');
+    }); 
+
+    jQuery("#row-form").on( "click", ".cancel-btn", function() {
+        jQuery('#row-form').html("");
+    }); 
+
+    jQuery("#row-form").on( "click", "#row-edit-dtn", function() {
+        let data = { 
+            action: 'worais-database-update', 
+            table: window.table,
+            data: {},            
+            primary: {}
+        };
+
+        jQuery('input[name="_wpnonce"], input[name="_wp_http_referer"]').each(function(x, field) {
+            data[field.name] = field.value;
+        });
+        jQuery('#row-form label.primary input').each(function(x, field) {
+            data['primary'][field.name] = field.value;
+        }); data['primary'] = btoa(JSON.stringify( data['primary'] ));
+        jQuery('#row-form label:not(.primary) input').each(function(x, field) {
+            data['data'][field.name] = field.value;
+        }); data['data'] = btoa(JSON.stringify( data['data'] ));
+
+        const $btn = jQuery(this);
+        jQuery.ajax({
+            type: "POST",
+            url: ajaxurl,
+            data,                                         
+            beforeSend:function() {
+                $btn.addClass('loading');
+                $btn.removeClass('error');
+            },                
+            success:function(data) {
+                jQuery('#row-form').html(data);
+                if(data == ''){
+                    jQuery('#btn-sql-run').click();
+                }
+            },
+            error:function(xhr, ajaxOptions, thrownError) {
+                jQuery('#row-form').html(`<div class='error'>${thrownError}</div>`);
+            },
+            complete:function() {
+                $btn.removeClass('loading');
+            }            
+        });
+    });     
 };

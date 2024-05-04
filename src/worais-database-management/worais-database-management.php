@@ -22,6 +22,7 @@ require WORAIS_DATABASE_DIR . "/../../../vendor/autoload.php";
 require WORAIS_DATABASE_DIR . "/filters/limit.php";
 require WORAIS_DATABASE_DIR . "/filters/where.php";
 require WORAIS_DATABASE_DIR . "/filters/columns.php";
+require WORAIS_DATABASE_DIR . "/filters/columns-print.php";
 
 use PhpMyAdmin\SqlParser\Parser;
 use PhpMyAdmin\SqlParser\Utils\Formatter;
@@ -81,6 +82,20 @@ class WoraisDatabase{
       return $links;
     } 
 
+    public static function update(){
+        global $wpdb;
+
+        if(!check_admin_referer('worais-database-query')){
+            die();
+        }
+
+        $data    = json_decode(utf8_encode(base64_decode($_POST['data'])), true);
+        $primary = json_decode(utf8_encode(base64_decode($_POST['primary'])), true);
+
+        $wpdb->update($_POST['table'], $data, $primary);
+        exit;
+    }
+
     public static function query(){
         global $wpdb;
 
@@ -129,6 +144,8 @@ class WoraisDatabase{
             $columns_data = $wpdb->get_results("SHOW COLUMNS FROM `$table`");
             $columns = [];
             foreach($columns_data as $row){
+                $columns[$row->Field]['field'] = $row->Field;
+                $columns[$row->Field]['type'] = $row->Type;
                 $columns[$row->Field]['key'] = $row->Key;
             }
 
@@ -140,9 +157,10 @@ class WoraisDatabase{
             $sql_builded = $query['statement']->build();             
             echo "<script>window.sql = '".base64_encode($sql_builded)."';</script>";
             echo "<script>window.table = '$table';</script>";
+            echo "<script>window.data = [];</script>";
 
             $wpdb->hide_errors(); 
-            $rows = $wpdb->get_results( $sql_builded );
+            $rows = $wpdb->get_results( $sql_builded, ARRAY_A );
             if($wpdb->last_error !== ''):
                 echo "<div id='error'>$wpdb->last_error</div>"; exit;
             endif;
@@ -160,7 +178,22 @@ class WoraisDatabase{
                 echo '<tr>';
                     foreach($row as $key => $value){
                         $class = "filed-$key";
-                        if($columns[$key]['key'] == 'PRI'){ $class .= ' primary'; };
+                        if($columns[$key]['key'] == 'PRI'){ 
+                            $class .= ' primary'; 
+
+                            $value = apply_filters('worais-database-columns-print-primary', [
+                                'column' => $columns[$key], 
+                                'value'  => $value,
+                                'row'    => $row
+                            ])['value'];                            
+                        };
+
+                        $value = apply_filters('worais-database-columns-print', [
+                            'column' => $columns[$key], 
+                            'value' => $value
+                        ])['value'];
+
+                        $value = apply_filters("worais-database-columns-print-$table-$key", $value);                        
 
                         echo "<td class='$class'>$value</td>";
                     }                
@@ -180,3 +213,4 @@ add_action('plugins_loaded',     ['WoraisDatabase', 'load_plugin_textdomain'] );
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), ['WoraisDatabase', 'load_plugin_action_links']);
 
 add_action('wp_ajax_worais-database-query', ['WoraisDatabase', 'query']);
+add_action('wp_ajax_worais-database-update', ['WoraisDatabase','update']);

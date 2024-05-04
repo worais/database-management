@@ -8,6 +8,8 @@
         <div id="tools"></div>     
         <div id="where-div"></div>
         <div id="colunms-div"></div>
+
+        <div id="row-form"></div>
     </div>
     <div id="results"></div>
     <div id="footer" class="worais-footer">
