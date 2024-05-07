@@ -38,4 +38,4 @@ services:
     image: composer:1.9.3
     volumes:
       - .:/app
-    command: install 
+    command: install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader

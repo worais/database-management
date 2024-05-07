@@ -16,17 +16,12 @@ jobs:
      needs: [lint]     
 
      steps:
-       - uses: actions/checkout@v2
-       - name: Composer
-         uses: php-actions/composer@v5  
-         with:
-           command: composer install --prefer-dist           
+       - uses: actions/checkout@v2       
        - uses: actions/setup-node@v1    
          with:
            node-version: 8
        - run: npm install
-       - run: npm run build 
-       - run: cp -R vendor src/worais-login-protect/vendor     
+       - run: npm run build  
        - run: cd src/ && zip -r ../../worais-database-management.zip worais-database-management
        - uses: actions/upload-artifact@v1
          with:
