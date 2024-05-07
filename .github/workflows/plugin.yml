@@ -10,6 +10,9 @@ jobs:
        - uses: michaelw90/PHP-Lint@master         
    build:
      runs-on: ubuntu-latest
+     permissions:
+       contents: read
+       packages: write     
      needs: [lint]     
 
      steps:
