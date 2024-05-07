@@ -17,7 +17,7 @@ services:
       - ./phpunit.xml:/var/www/html/phpunit.xml    
       - ./.phplint.yml:/var/www/html/.phplint.yml   
       - ./tests:/var/www/html/tests     
-      - ./vendor:/var/www/html/vendor
+      #- ./vendor:/var/www/html/vendor
       - ./src:/var/www/html/wp-content/plugins
     ports:
       - 8000:80

@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 define('WORAIS_DATABASE_URL', plugin_dir_url( __FILE__ ));
 define('WORAIS_DATABASE_DIR', dirname( __FILE__ ));
 
+require WORAIS_DATABASE_DIR . "/vendor/autoload.php";
 require WORAIS_DATABASE_DIR . "/consts/options.php";
-require WORAIS_DATABASE_DIR . "/../../../vendor/autoload.php";
 require WORAIS_DATABASE_DIR . "/filters/limit.php";
 require WORAIS_DATABASE_DIR . "/filters/where.php";
 require WORAIS_DATABASE_DIR . "/filters/columns.php";
