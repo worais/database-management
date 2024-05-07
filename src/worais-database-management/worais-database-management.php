@@ -27,6 +27,8 @@ require WORAIS_DATABASE_DIR . "/filters/columns-print.php";
 use PhpMyAdmin\SqlParser\Parser;
 use PhpMyAdmin\SqlParser\Utils\Formatter;
 use PhpMyAdmin\SqlParser\Statements\SelectStatement;
+use PhpMyAdmin\SqlParser\Components\Expression;
+use PhpMyAdmin\SqlParser\Components\Limit;
 
 class WoraisDatabase{
     public static function install(){
@@ -103,7 +105,7 @@ class WoraisDatabase{
             die();
         }
 
-        $sql = base64_decode( $_POST['sql'] );
+        $sql = base64_decode( esc_html(sanitize_text_field($_POST['sql'])) );
 
         if(empty($sql)){
             ?>
@@ -119,8 +121,8 @@ class WoraisDatabase{
                 <tbody>                               
                     <?php
                         global $wpdb;
-
-                        $tables = $wpdb->get_results("SELECT * FROM information_schema.tables WHERE table_schema = '".DB_NAME."'");            
+                        $database = esc_html(sanitize_text_field(DB_NAME));
+                        $tables = $wpdb->get_results("SELECT * FROM information_schema.tables WHERE table_schema = '$database'");            
                         foreach($tables as $table){
                             echo ($table->TABLE_ROWS == 0)? "<tr class='empty'>" : "<tr>";
                                 echo "<td><a href='#query=".base64_encode("SELECT * FROM `$table->TABLE_NAME`;")."'>$table->TABLE_NAME</a></td>";
@@ -155,7 +157,14 @@ class WoraisDatabase{
                 'columns'   => $columns
             ]);
 
-            $sql_builded = $query['statement']->build();             
+            $sql_builded = $query['statement']->build();
+
+            $query['statement']->expr = [new Expression('COUNT(*)')];
+            $query['statement']->limit = new Limit(1); 
+
+            $sql_total   = $query['statement']->build();
+            $total = $wpdb->get_var($sql_total);
+            echo "<script>window.total = $total;</script>";
             echo "<script>window.sql = '".base64_encode($sql_builded)."';</script>";
             echo "<script>window.table = '$table';</script>";
             echo "<script>window.data = [];</script>";

@@ -170,7 +170,7 @@ body.settings_page_worais-database  #wpcontent #wpbody #wpbody-content > .notice
     #tools{
         display: flex;
         margin-bottom: 5px;
-        > a{       
+        a{       
             margin-right: 5px;
             background-repeat: no-repeat;
             background-position: center;
@@ -193,6 +193,29 @@ body.settings_page_worais-database  #wpcontent #wpbody #wpbody-content > .notice
                 background-color: #ccc !important;
             }
         } 
+        .pagination{
+            position: absolute;
+            right: 20px; 
+            width: 82px;
+            text-align: right;              
+            a{
+                display: inline-block;
+                width: 34px;
+                height: 34px;
+                &.disabled{
+                    opacity: 0.7;
+                    background: #f0f0f0 !important;
+                    cursor: inherit;
+                }
+            }         
+        }    
+        .pagination-prev{
+            background-image: url(left-arrow.png);
+        }  
+        .pagination-next{
+            background-image: url(right-arrow.png);
+            margin-right: 0;
+        }                      
         .colunms-btn{
             background-image: url(colunms.png);
         }     

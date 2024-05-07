@@ -1,9 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 use PhpMyAdmin\SqlParser\Components\Expression;
 
 add_filter('worais-database-statement-select', function($query){
     if(isset($_POST['colunms'])){
-        $colunms_input = $_POST['colunms'];
+        $colunms_input = esc_html(sanitize_text_field($_POST['colunms']));
         if(!empty($colunms_input)){
             $colunms_input = explode(',', $colunms_input);
             foreach($query['columns'] as $key => $row){

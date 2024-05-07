@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 <div id="worais-database">
     <div id="editor">
         <textarea id="sql"></textarea>  

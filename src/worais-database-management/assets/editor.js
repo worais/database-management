@@ -25,6 +25,8 @@ window.onload = function() {
 
     window.editor.on("change", function() {
         jQuery('input[name=colunms]').val('');
+
+        window.offset_input = false;
     });    
 
     window.onhashchange = function (){
@@ -50,7 +52,9 @@ window.onload = function() {
         const data = { 
             action: 'worais-database-query', 
             sql: btoa( window.editor.getDoc().getValue() ),
-            where: window.where 
+            where: window.where,
+            offset: window.offset_input,
+            limit: window.limit
         };
 
         jQuery('#worais-database').find('input, select').each(function(x, field) {
@@ -85,6 +89,16 @@ window.onload = function() {
                 //colunms control
                 jQuery('#colunms-div, #where-div, #tools').html('');
                 jQuery('.where-btn, #where-div, .colunms-btn, #colunms-div').removeClass("open");
+                if(window.total > window.limit){
+                    jQuery('#tools').append(`<div class='pagination'><a class="pagination-prev"></a><a class="pagination-next"></a></div>`);
+                    if(window.offset == 0){
+                        jQuery('#tools .pagination-prev').addClass("disabled");
+                    }
+                    if(window.offset + window.limit > window.total){
+                        jQuery('#tools .pagination-next').addClass("disabled");
+                    }                    
+                }
+
                 if(window.colunms){
                     jQuery('#tools').append(`<a class='colunms-btn'></a>`);
 
@@ -149,7 +163,7 @@ window.onload = function() {
                         addWhereRow();
                     }                    
 
-                    jQuery('#tools').append(`<i class='table-btn'>${window.table}</i>`);
+                    jQuery('#tools').append(`<i class='table-btn'>${window.table}(${window.total})</i>`);
                 }
             },   
             error:function(xhr, ajaxOptions, thrownError) {
@@ -195,6 +209,20 @@ window.onload = function() {
         }
         jQuery('#row-form').append('<a class="cancel-btn">Cancel</a><button class="btn-lg" id="row-edit-dtn"><span class="spinner is-active"></span>Save</button>');
     }); 
+
+    jQuery("#tools").on( "click", ".pagination-prev", function() {
+        window.offset_input = window.offset - window.limit;
+        if(window.offset_input < 0){
+            window.offset_input = 0;
+        }
+
+        jQuery('#btn-sql-run').click();
+    }); 
+    jQuery("#tools").on( "click", ".pagination-next", function() {
+        window.offset_input = window.offset + window.limit;
+        jQuery('#btn-sql-run').click();
+    });     
+
 
     jQuery("#row-form").on( "click", ".cancel-btn", function() {
         jQuery('#row-form').html("");

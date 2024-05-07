@@ -1,4 +1,6 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 add_filter('worais-database-columns-print-wp_posts-post_author', function($value){
     global $wpdb;
 
@@ -9,7 +11,6 @@ add_filter('worais-database-columns-print-wp_posts-post_author', function($value
 add_filter('worais-database-columns-print-wp_postmeta-post_id', function($value){
     return "<a href='#query=".base64_encode("SELECT * FROM `wp_posts` WHERE `ID` = $value;")."'>$value</a>";
 });
-
 
 add_filter('worais-database-columns-print-wp_posts-post_content', function($value){
     return strip_tags(mb_strimwidth($value, 0, 100, "..."));
