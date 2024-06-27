@@ -67,9 +67,8 @@ class WoraisDatabase{
         wp_enqueue_script('worais-database-editor', plugin_dir_url( __FILE__ ).'/assets/editor.js');
         wp_enqueue_script('worais-database-chart', plugin_dir_url( __FILE__ ).'/assets/chart.js');
 
-        wp_enqueue_style('worais-codemirror-lib',  plugin_dir_url( __FILE__ ).'/assets/codemirror-5.65.16/lib/codemirror.css');
-        wp_enqueue_script('worais-codemirror-lib', plugin_dir_url( __FILE__ ).'/assets/codemirror-5.65.16/lib/codemirror.js');
-        wp_enqueue_script('worais-codemirror-sql', plugin_dir_url( __FILE__ ).'/assets/codemirror-5.65.16/mode/sql/sql.js');
+        wp_enqueue_style('wp-codemirror');
+        wp_enqueue_script('wp-codemirror');
     }
 
 	public static function load_plugin_textdomain() {

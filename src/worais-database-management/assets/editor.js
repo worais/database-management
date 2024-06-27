@@ -9,7 +9,7 @@ function addWhereRow(){
 }
 
 window.onload = function() {
-    window.editor = CodeMirror.fromTextArea(document.getElementById('sql'), {
+    window.editor = wp.CodeMirror.fromTextArea(document.getElementById('sql'), {
         mode: 'text/x-mariadb',
         indentWithTabs: true,
         smartIndent: true,
