@@ -8,7 +8,7 @@ License: GPLv3 or later
 Stable tag: 1.1.0
 
 == Description ==
-**Worais Login Protect** plugin allows you to easily manage your WordPress database directly from the admin panel. You can run SQL queries, optimize tables, backup and restore the database, among other features :)
+**Worais Database Management** plugin Allows you to easily manage your WordPress database :)
 
 = Features =
 1. **Run SQL Queries:** Run SQL queries directly against your website's database.
@@ -22,4 +22,4 @@ Stable tag: 1.1.0
 3. Follow the instructions to set up and configure
 
 == Support ==
-If you encounter issues or have improvement suggestions, please open an [issue](https://github.com/worais/login-protect/issues)
+If you encounter issues or have improvement suggestions, please open an [issue](https://github.com/worais/database-management/issues)
